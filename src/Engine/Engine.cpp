@@ -231,7 +231,9 @@ void Engine::setOptions(Options options) {
         assembly->setOptions(options);
 
         // need to recreate all ExecBlock
-        if ( ((this->options ^ options) & (Options::OPT_DISABLE_FPR | Options::OPT_DISABLE_OPTIONAL_FPR)) != 0) {
+        if ( ((this->options ^ options) & (Options::OPT_DISABLE_FPR |
+                                           Options::OPT_DISABLE_OPTIONAL_FPR |
+                                           Options::OPT_ENABLE_FS_GS )) != 0) {
             const RangeSet<rword> instrumentationRange = execBroker->getInstrumentedRange();
 
             blockManager = std::make_unique<ExecBlockManager>(*assembly, vminstance);

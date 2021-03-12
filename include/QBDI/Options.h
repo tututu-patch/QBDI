@@ -38,6 +38,7 @@ typedef enum {
     // architecture specific option between 24 and 31
     #if defined(QBDI_ARCH_X86_64) || defined(QBDI_ARCH_X86)
     _QBDI_EI(OPT_ATT_SYNTAX)                  = 1<<24,      /*!< Used the AT&T syntax for instruction disassembly */
+    _QBDI_EI(OPT_ENABLE_FS_GS)                = 1<<25,      /*!< Enable Backup/Restore of FS/GS segment */
     #endif
 } Options;
 

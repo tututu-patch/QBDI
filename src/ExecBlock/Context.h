@@ -40,6 +40,8 @@ extern const unsigned int size_SEG_ID;
  */
 struct HostState {
     rword sp;
+    rword fs;
+    rword gs;
     rword selector;
     rword callback;
     rword data;

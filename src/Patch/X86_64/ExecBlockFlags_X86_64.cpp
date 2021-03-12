@@ -38,6 +38,8 @@ struct ExecBlockFlagsArray {
                            (llvm::X86::MM0<= i && i <= llvm::X86::MM7) ||
                            llvm::X86::FPSW == i || llvm::X86::FPCW == i) {
                 arr[i] = ExecBlockFlags::needFPU;
+            } else if (i == llvm::X86::FS || i == llvm::X86::GS)  {
+                arr[i] = ExecBlockFlags::needFSGS;
             } else {
                 arr[i] = 0;
             }
@@ -55,7 +57,7 @@ struct ExecBlockFlagsArray {
 
 }
 
-const uint8_t defaultExecuteFlags = ExecBlockFlags::needAVX | ExecBlockFlags::needFPU;
+const uint8_t defaultExecuteFlags = ExecBlockFlags::needAVX | ExecBlockFlags::needFPU | ExecBlockFlags::needFSGS;
 
 uint8_t getExecBlockFlags(const llvm::MCInst& inst, const llvm::MCInstrInfo* MCII, const llvm::MCRegisterInfo* MRI) {
     static constexpr ExecBlockFlagsArray cache;
@@ -90,6 +92,11 @@ uint8_t getExecBlockFlags(const llvm::MCInst& inst, const llvm::MCInstrInfo* MCI
 
     if ((flags & ExecBlockFlags::needAVX) != 0)
         flags |= ExecBlockFlags::needFPU;
+
+    // enable needFSGS for SYSCALL
+    if (inst.getOpcode() == llvm::X86::SYSCALL) {
+        flags |= ExecBlockFlags::needFSGS;
+    }
 
     return flags;
 }

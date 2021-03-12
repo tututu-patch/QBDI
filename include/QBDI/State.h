@@ -142,6 +142,8 @@ typedef struct {
     rword esp;
     rword eip;
     rword eflags;
+    rword fs;
+    rword gs;
 } GPRState;
 // SPHINX_X86_GPRSTATE_END
 
@@ -155,7 +157,9 @@ static const char* const GPR_NAMES[] = {
     "EBP",
     "ESP",
     "EIP",
-    "EFLAGS"
+    "EFLAGS",
+    "FS",
+    "GS"
 };
 
 static const unsigned int NUM_GPR = 9;
@@ -267,6 +271,8 @@ typedef struct {
     rword rsp;
     rword rip;
     rword eflags;
+    rword fs;
+    rword gs;
 } GPRState;
 // SPHINX_X86_64_GPRSTATE_END
 
@@ -288,7 +294,9 @@ static const char* const GPR_NAMES[] = {
     "RBP",
     "RSP",
     "RIP",
-    "EFLAGS"
+    "EFLAGS",
+    "FS",
+    "GS"
 };
 
 static const unsigned int NUM_GPR = 17;
