@@ -425,7 +425,9 @@ size_t ExecBlockManager::findRegion(const Range<rword>& codeRange) {
             cost += (regions[i].covered.start() - codeRange.start());
         }
         // Make sure that such cost is available and that it's better than previous candidates
-        if(static_cast<unsigned>(cost * getExpansionRatio()) < regions[i].available && cost < best_cost) {
+        if(cost < regions[i].available &&
+                ( cost == 0 || getExpansionRatio() < static_cast<float>(regions[i].available) / static_cast<float>(cost)) &&
+                cost < best_cost) {
             best_cost = cost;
             best_region = i;
         }
